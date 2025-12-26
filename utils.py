@@ -1,9 +1,9 @@
-import os
 import random
 from typing import List, Generator
 from settings import *
 
-
+# Логіка генерації рівнв та збереження
+#
 def ensure_level_files():
     if not os.path.exists(LEVELS_DIR):
         os.makedirs(LEVELS_DIR)
@@ -69,7 +69,6 @@ def level_line_generator(file_path: str) -> Generator[str, None, None]:
 def load_level_matrix(level_num: int) -> List[List[str]]:
     path = os.path.join(LEVELS_DIR, f"level_{level_num}.txt")
     matrix = []
-    # Якщо файлу нема - спробуємо перегенерувати
     if not os.path.exists(path):
         ensure_level_files()
 

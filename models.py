@@ -66,7 +66,7 @@ class Item(GameObject):
         self.image.fill(color)
         self.rect = self.image.get_rect(center=(x, y))
         self.item_type = item_type
-        font = pygame.font.SysFont("Arial", 12)
+        font = pygame.font.SysFont("Arial", 10)
         text = "HP" if item_type == "HEART" else "DMG"
         txt_surf = font.render(text, True, WHITE)
         self.image.blit(txt_surf, (2, 2))
@@ -75,10 +75,27 @@ class Item(GameObject):
 class Tank(GameObject):
     def __init__(self, x, y, color, hp):
         super().__init__(x, y, color)
+        self.base_color = color
         self.hp = hp
         self.direction = (0, -1)
         self.last_shot = 0
         self.damage_modifier = 0
+        self.render_tank()
+
+    def render_tank(self):
+        self.image.fill(self.base_color)
+        barrel_color = (230, 230, 0)
+        bw, bh = 10, 20
+
+        if self.direction == (0, -1):
+            pygame.draw.rect(self.image, barrel_color, (TILE_SIZE // 2 - bw//2, 0, bw, bh))
+        elif self.direction == (0, 1):
+            pygame.draw.rect(self.image, barrel_color, (TILE_SIZE // 2 - bw//2, TILE_SIZE - bh, bw, bh))
+        elif self.direction == (1, 0):
+            pygame.draw.rect(self.image, barrel_color, (TILE_SIZE - bh, TILE_SIZE // 2 - bw // 2, bh, bw))
+        elif self.direction == (-1, 0):
+            pygame.draw.rect(self.image, barrel_color, (0, TILE_SIZE // 2 - bw // 2, bh, bw))
+
 
     def move(self, dx, dy, obstacles):
         self.rect.x += dx
@@ -98,8 +115,11 @@ class Tank(GameObject):
                     self.rect.top = obj.rect.bottom
 
         if dx != 0 or dy != 0:
-            self.direction = (1 if dx > 0 else -1 if dx < 0 else 0,
+            new_dir = (1 if dx > 0 else -1 if dx < 0 else 0,
                               1 if dy > 0 else -1 if dy < 0 else 0)
+            if new_dir != self.direction:
+                self.direction = new_dir
+                self.render_tank()
 
     def shoot(self, current_time, bullets_group, tag):
         if current_time - self.last_shot > SHOOT_DELAY:
