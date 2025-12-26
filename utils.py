@@ -57,6 +57,7 @@ def create_random_level(path: str, size: int):
             f.write("".join(row) + "\n")
 
 
+
 def level_line_generator(file_path: str) -> Generator[str, None, None]:
     try:
         with open(file_path, "r") as f:

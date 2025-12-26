@@ -6,7 +6,6 @@ from settings import *
 from utils import ensure_level_files, load_level_matrix, save_highscore, load_highscore
 from models import Block, Player, Enemy, Item
 
-
 class Game:
     def __init__(self):
         pygame.init()

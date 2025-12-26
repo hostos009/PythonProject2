@@ -82,6 +82,7 @@ class Tank(GameObject):
         self.damage_modifier = 0
         self.render_tank()
 
+
     def render_tank(self):
         self.image.fill(self.base_color)
         barrel_color = (230, 230, 0)
